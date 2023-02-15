@@ -2,19 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux/es/hooks/useSelector';
 import { useDispatch } from 'react-redux';
 import { helpHttp } from '../helpers/helpHttp';
+import {
+  readAllAction,
+  noData,
+  createAction,
+  updateAction,
+  deleteAction,
+} from '../actions/crudActions';
 import CrudForm from './CrudForm';
 import CrudTable from './CrudTable';
 import Loader from './Loader';
 import Message from './Message';
-import { readAllAction } from '../actions/crudActions';
-import { noData } from '../actions/crudActions';
-import { createAction } from '../actions/crudActions';
-import { updateAction } from '../actions/crudActions';
-import { deleteAction } from '../actions/crudActions';
 
 const CrudApi = () => {
   const state = useSelector((state) => state);
-  const { db } = state;
+  const { db } = state.crud;
   const dispatch = useDispatch();
   const [dataToEdit, setDataToEdit] = useState(null);
   const [error, setError] = useState(null);

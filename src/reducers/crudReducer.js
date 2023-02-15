@@ -5,9 +5,10 @@ import { CREATE_DATA } from '../types';
 import { READ_ALL_DATA } from '../types';
 
 export const crudInitialState = { db: null };
-export function crudReducers(state, action) {
+export function crudReducers(state = crudInitialState, action) {
   switch (action.type) {
     case READ_ALL_DATA: {
+      console.log(action.payload);
       return {
         ...state,
         db: action.payload.map((data) => data),
