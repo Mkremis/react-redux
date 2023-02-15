@@ -7,7 +7,7 @@ function App() {
     <Provider store={store}>
       <div className="App">
         <h1>Getting Started with Redux</h1>
-        {/* <Contador /> */}
+        <Contador />
       </div>
       <hr />
       <ShoppingCart />
