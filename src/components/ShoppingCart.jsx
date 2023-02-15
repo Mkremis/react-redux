@@ -34,8 +34,8 @@ const ShoppingCart = () => {
           <CartItem
             key={`cart_${item.id}`}
             data={item}
-            deleteAllFromCart={dispatch(deleteFromCart(item.id, true))}
-            deleteOneFromCart={dispatch(deleteFromCart(item.id, false))}
+            deleteAllFromCart={dispatch(deleteFromCart(item.id, true))} 
+            deleteOneFromCart={dispatch(deleteFromCart(item.id))}
           />
         ))}
       </article>

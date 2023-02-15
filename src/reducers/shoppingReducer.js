@@ -47,7 +47,7 @@ export function shoppingReducer(state = initialState, action) {
       );
 
       let itemInCart = state.cart.find((item) => item.id === newItem.id);
-
+      console.log(itemInCart);
       return itemInCart
         ? {
             ...state,
@@ -72,7 +72,7 @@ export function shoppingReducer(state = initialState, action) {
 
     case REMOVE_ONE_FROM_CART: {
       let itemInCart = state.cart.find((item) => item.id === action.payload);
-      return itemInCart.quantity > 0
+      return itemInCart.quantity && itemInCart.quantity > 0
         ? {
             ...state,
             cart: state.cart.map((item) => {
