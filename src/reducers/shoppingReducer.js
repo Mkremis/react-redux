@@ -1,4 +1,9 @@
-const shoppingInitialState = {
+import { REMOVE_ALL_FROM_CART } from '../types';
+import { REMOVE_ONE_FROM_CART } from '../types';
+import { CLEAR_CART } from '../types';
+import { ADD_TO_CART } from '../types';
+
+const initialState = {
   products: [
     {
       id: 1,
@@ -34,9 +39,9 @@ const shoppingInitialState = {
   cart: [],
 };
 
-export function shoppingReducer(state = shoppingInitialState, action) {
+export function shoppingReducer(state = initialState, action) {
   switch (action.type) {
-    case TYPES.ADD_TO_CART: {
+    case ADD_TO_CART: {
       let newItem = state.products.find(
         (product) => product.id === action.payload
       );
@@ -54,18 +59,18 @@ export function shoppingReducer(state = shoppingInitialState, action) {
           }
         : { ...state, cart: [...state.cart, { ...newItem, quantity: 1 }] };
     }
-    case TYPES.CLEAR_CART:
+    case CLEAR_CART:
       return {
         products: state.products,
         cart: [],
       };
-    case TYPES.REMOVE_ALL_FROM_CART:
+    case REMOVE_ALL_FROM_CART:
       return {
         products: state.products,
         cart: state.cart.filter((item) => item.id !== action.payload),
       };
 
-    case TYPES.REMOVE_ONE_FROM_CART: {
+    case REMOVE_ONE_FROM_CART: {
       let itemInCart = state.cart.find((item) => item.id === action.payload);
       return itemInCart.quantity > 0
         ? {
