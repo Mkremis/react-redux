@@ -5,7 +5,7 @@ const initailForm = {
   constellation: '',
   id: null,
 };
-
+ 
 const CrudForm = ({ createData, updateData, dataToEdit, setDataToEdit }) => {
   const [form, setForm] = useState(initailForm);
 

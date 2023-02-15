@@ -1,16 +1,21 @@
-import React, { useEffect, useReducer, useState } from 'react';
-import { TYPES } from '../actions/crudActions';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux/es/hooks/useSelector';
+import { useDispatch } from 'react-redux';
 import { helpHttp } from '../helpers/helpHttp';
-import { crudInitialState, crudReducers } from '../reducers/crudReducers';
 import CrudForm from './CrudForm';
 import CrudTable from './CrudTable';
 import Loader from './Loader';
 import Message from './Message';
+import { readAllAction } from '../actions/crudActions';
+import { noData } from '../actions/crudActions';
+import { createAction } from '../actions/crudActions';
+import { updateAction } from '../actions/crudActions';
+import { deleteAction } from '../actions/crudActions';
 
 const CrudApi = () => {
-  // const [db, setDb] = useState(null);
-  const [state, dispatch] = useReducer(crudReducers, crudInitialState);
+  const state = useSelector((state) => state);
   const { db } = state;
+  const dispatch = useDispatch();
   const [dataToEdit, setDataToEdit] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -24,12 +29,10 @@ const CrudApi = () => {
       .get(url)
       .then((res) => {
         if (!res.err) {
-          // setDb(res);
-          dispatch({ type: TYPES.READ_ALL_DATA, payload: res });
+          dispatch(readAllAction(res));
           setError(null);
         } else {
-          // setDb(null);
-          dispatch({ type: TYPES.NO_DATA });
+          dispatch(noData());
           setError(res);
         }
         setLoading(false);
@@ -37,17 +40,13 @@ const CrudApi = () => {
   }, [url]);
   const createData = (data) => {
     data.id = Date.now();
-
     let options = {
       body: data,
       headers: { 'content-type': 'application/json' },
     };
-
     api.post(url, options).then((res) => {
       if (!res.err) {
-        // setDb([...db, res]);
-        console.log(res);
-        dispatch({ type: TYPES.CREATE_DATA, payload: res });
+        dispatch(createAction(res));
       } else {
         setError(res);
       }
@@ -56,16 +55,13 @@ const CrudApi = () => {
 
   const updateData = (data) => {
     let endpoint = `${url}/${data.id}`;
-
     let options = {
       body: data,
       headers: { 'content-type': 'application/json' },
     };
-
     api.put(endpoint, options).then((res) => {
       if (!res.err) {
-        // setDb(newData);
-        dispatch({ type: TYPES.UPDATE_DATA, payload: data });
+        dispatch(updateAction(res));
       } else {
         setError(res);
       }
@@ -85,8 +81,7 @@ const CrudApi = () => {
 
       api.del(endpoint, options).then((res) => {
         if (!res.err) {
-          // setDb(newData);
-          dispatch({ type: TYPES.DELETE_DATA, payload: id });
+          dispatch(deleteAction(id));
         } else {
           setError(res);
         }
