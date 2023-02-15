@@ -1,13 +1,12 @@
-import React, { useReducer } from 'react';
-import {
-  shoppingInitialState,
-  shoppingReducer,
-} from '../reducers/shoppingReducer';
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux/es/hooks/useSelector';
 import CartItem from './CartItem';
 import ProductItem from './ProductItem';
 
 const ShoppingCart = () => {
-  const [state, dispatch] = useReducer(shoppingReducer, shoppingInitialState);
+  const state = useSelector((state) => state);
+  const dispatch = useDispatch();
   const { products, cart } = state;
 
   return (
